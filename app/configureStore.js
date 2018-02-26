@@ -6,7 +6,11 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
+import { reactReduxFirebase } from 'react-redux-firebase';
+import { reduxFirestore } from 'redux-firestore';
+import firebase from 'firebase';
 import createReducer from './reducers';
+
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -19,8 +23,16 @@ export default function configureStore(initialState = {}, history) {
     routerMiddleware(history),
   ];
 
+  // react-redux-firebase config
+  const rrfConfig = {
+    userProfile: 'users',
+    // useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
+  };
+
   const enhancers = [
     applyMiddleware(...middlewares),
+    reactReduxFirebase(firebase, rrfConfig),
+    reduxFirestore(firebase),
   ];
 
   // If Redux DevTools Extension is installed use it, otherwise use Redux compose

@@ -13,6 +13,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
+import firebase from 'firebase';
+import 'firebase/firestore'; // <- needed if using firestore
 import createHistory from 'history/createBrowserHistory';
 import 'sanitize.css/sanitize.css';
 
@@ -45,11 +47,27 @@ import { translationMessages } from './i18n';
 // Import CSS reset and Global Styles
 import './global-styles';
 
+  // Initialize Firebase
+const firebaseConfig = {
+  apiKey: 'AIzaSyBWlTKtD0NgyujEuPdVvN3nzUsa4ctRPnk',
+  authDomain: 'hometag-82168.firebaseapp.com',
+  databaseURL: 'https://hometag-82168.firebaseio.com',
+  projectId: 'hometag-82168',
+  storageBucket: 'hometag-82168.appspot.com',
+  messagingSenderId: '58018091371',
+};
+
+firebase.initializeApp(firebaseConfig);
+
+// initialize firestore
+firebase.firestore(); // <- needed if using firestore
+
 // Create redux store with history
 const initialState = {};
 const history = createHistory();
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
+
 
 const render = (messages) => {
   ReactDOM.render(
