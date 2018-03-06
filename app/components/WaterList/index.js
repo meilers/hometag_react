@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import List from 'components/List';
 import ListItem from 'components/ListItem';
 import LoadingIndicator from 'components/LoadingIndicator';
-import WaterListItem from 'components/WaterListItem';
+import WaterListItem from 'containers/WaterListItem';
 
 function WaterList({ loading, error, water }) {
   if (loading) {
@@ -20,13 +20,11 @@ function WaterList({ loading, error, water }) {
   }
 
   if (water !== false) {
-    var waterItems = []
+    const waterItems = []
 
-    for (var key in water) {
-      if (water.hasOwnProperty(key)) {
-          waterItems.push(water[key]);
-      }
-    }
+    Object.keys(water).forEach(function(key) {
+      waterItems.push(water[key]);
+    })
 
     return <List items={waterItems} component={WaterListItem} />;
   }
