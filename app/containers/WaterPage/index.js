@@ -33,6 +33,7 @@ export class WaterPage extends React.PureComponent { // eslint-disable-line reac
           <title>WaterPage</title>
           <meta name="description" content="Description of WaterPage" />
         </Helmet>
+        Hello
         <WaterList {...waterListProps} />
       </div>
     );
