@@ -16,7 +16,6 @@ import 'firebase/firestore'; // add this to use Firestore
 import WaterList from 'components/WaterList';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import makeSelectWater from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
@@ -41,12 +40,10 @@ export class WaterPage extends React.PureComponent { // eslint-disable-line reac
 }
 
 WaterPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   water: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  water: makeSelectWater(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -55,9 +52,11 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const withConnect = connect((state) => ({
-    water: state.get('firestore').data,
-  }));
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+const withFirestoreConnect = connect((state) => ({
+  water: state.get('firestore').data,
+}));
 
 const withReducer = injectReducer({ key: 'waterPage', reducer });
 const withSaga = injectSaga({ key: 'waterPage', saga });
@@ -66,10 +65,16 @@ export default compose(
   withReducer,
   withSaga,
   withConnect,
-  firestoreConnect(props => [
+  withFirestoreConnect,
+  firestoreConnect([
     {
       collection: 'users/531262325/water',
-      // where: ['user.uid', '==', props.auth.uid],
     },
   ]),
+  // firestoreConnect((props) => [
+  //   {
+  //     collection: 'users/531262325/water',
+  //     // where: ['user.uid', '==', props.auth.uid],
+  //   },
+  // ]),
 )(WaterPage);

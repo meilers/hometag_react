@@ -11,7 +11,7 @@ function WaterList({ loading, error, water }) {
     return <List component={LoadingIndicator} />;
   }
 
-  console.log(water)
+  console.log(water);
   if (error !== false) {
     const ErrorComponent = () => (
       <ListItem item={'Something went wrong, please try again!'} />
@@ -29,7 +29,7 @@ function WaterList({ loading, error, water }) {
 WaterList.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.any,
-  repos: PropTypes.any,
+  water: PropTypes.any,
 };
 
 export default WaterList;

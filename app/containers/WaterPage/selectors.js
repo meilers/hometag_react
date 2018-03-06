@@ -4,7 +4,6 @@ import { createSelector } from 'reselect';
  * Direct selector to the waterPage state domain
  */
 const selectWaterPageDomain = (state) => state.get('waterPage');
-const selectFirestore = (state) => state.get('firestore');
 
 /**
  * Other specific selectors
@@ -20,13 +19,7 @@ const makeSelectWaterPage = () => createSelector(
   (substate) => substate.toJS()
 );
 
-const makeSelectWater = () => createSelector(
-  selectFirestore,
-  (state) => state
-);
-
 export default makeSelectWaterPage;
 export {
   selectWaterPageDomain,
-  makeSelectWater,
 };
