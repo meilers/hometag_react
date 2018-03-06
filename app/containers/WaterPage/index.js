@@ -8,30 +8,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { firestoreConnect } from 'react-redux-firebase'
-import 'firebase/firestore' // add this to use Firestore
+import { firestoreConnect } from 'react-redux-firebase';
+import 'firebase/firestore'; // add this to use Firestore
 
+import WaterList from 'components/WaterList';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import makeSelectWater from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import messages from './messages';
-import WaterList from 'components/WaterList';
 
 export class WaterPage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
-    console.log(firestoreConnect)
-
     const { water } = this.props;
     const waterListProps = {
       water,
     };
 
-    console.log(this.props)
+    console.log(this.props);
     return (
       <div>
         <Helmet>
@@ -46,10 +42,11 @@ export class WaterPage extends React.PureComponent { // eslint-disable-line reac
 
 WaterPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  water: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  users: makeSelectWater(),
+  water: makeSelectWater(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -58,14 +55,21 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect((state) => ({
+    water: state.get('firestore').data,
+  }));
 
 const withReducer = injectReducer({ key: 'waterPage', reducer });
 const withSaga = injectSaga({ key: 'waterPage', saga });
 
 export default compose(
-  firestoreConnect({ collection: 'users' }),
   withReducer,
   withSaga,
   withConnect,
+  firestoreConnect(props => [
+    {
+      collection: 'users/531262325/water',
+      // where: ['user.uid', '==', props.auth.uid],
+    },
+  ]),
 )(WaterPage);

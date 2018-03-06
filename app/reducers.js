@@ -7,6 +7,7 @@ import { fromJS } from 'immutable';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { firebaseReducer } from 'react-redux-firebase';
 import { firestoreReducer } from 'redux-firestore';
+
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
 
 /*

@@ -22,10 +22,11 @@ const makeSelectWaterPage = () => createSelector(
 
 const makeSelectWater = () => createSelector(
   selectFirestore,
-  (state) => state.firestore.users
+  (state) => state
 );
 
 export default makeSelectWaterPage;
 export {
   selectWaterPageDomain,
+  makeSelectWater,
 };
