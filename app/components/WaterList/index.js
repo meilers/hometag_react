@@ -11,7 +11,7 @@ function WaterList({ loading, error, water }) {
     return <List component={LoadingIndicator} />;
   }
 
-  console.log(water);
+  console.log(loading);
   if (error !== false) {
     const ErrorComponent = () => (
       <ListItem item={'Something went wrong, please try again!'} />
@@ -20,7 +20,15 @@ function WaterList({ loading, error, water }) {
   }
 
   if (water !== false) {
-    return <List items={water} component={WaterListItem} />;
+    var waterItems = []
+
+    for (var key in water) {
+      if (water.hasOwnProperty(key)) {
+          waterItems.push(water[key]);
+      }
+    }
+
+    return <List items={waterItems} component={WaterListItem} />;
   }
 
   return null;

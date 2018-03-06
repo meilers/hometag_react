@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { firestoreConnect } from 'react-redux-firebase';
+import { isLoaded, firestoreConnect } from 'react-redux-firebase';
 import 'firebase/firestore'; // add this to use Firestore
 
 import WaterList from 'components/WaterList';
@@ -24,6 +24,8 @@ export class WaterPage extends React.PureComponent { // eslint-disable-line reac
     const { water } = this.props;
     const waterListProps = {
       water,
+      loading: !isLoaded(water),
+      error: water == null
     };
 
     console.log(this.props);
@@ -33,7 +35,6 @@ export class WaterPage extends React.PureComponent { // eslint-disable-line reac
           <title>WaterPage</title>
           <meta name="description" content="Description of WaterPage" />
         </Helmet>
-        Hello
         <WaterList {...waterListProps} />
       </div>
     );
@@ -41,7 +42,7 @@ export class WaterPage extends React.PureComponent { // eslint-disable-line reac
 }
 
 WaterPage.propTypes = {
-  water: PropTypes.object.isRequired,
+  water: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -56,7 +57,7 @@ function mapDispatchToProps(dispatch) {
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withFirestoreConnect = connect((state) => ({
-  water: state.get('firestore').data,
+  water: state.get('firestore').data['users/531262325/water'],
 }));
 
 const withReducer = injectReducer({ key: 'waterPage', reducer });
