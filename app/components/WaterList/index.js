@@ -6,7 +6,7 @@ import ListItem from 'components/ListItem';
 import LoadingIndicator from 'components/LoadingIndicator';
 import WaterListItem from 'containers/WaterListItem';
 
-function WaterList({ loading, error, water }) {
+function WaterList({ firebase, loading, error, water }) {
   if (loading) {
     return <List component={LoadingIndicator} />;
   }
@@ -23,6 +23,8 @@ function WaterList({ loading, error, water }) {
     const waterItems = []
 
     Object.keys(water).forEach(function(key) {
+      water[key].id = key
+      water[key].firebase = firebase
       waterItems.push(water[key]);
     })
 

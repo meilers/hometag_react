@@ -9,10 +9,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { FormattedNumber } from 'react-intl';
+import { Link } from 'react-router-dom';
 
 import { makeSelectCurrentUser } from 'containers/App/selectors';
 import ListItem from 'components/ListItem';
 import Wrapper from './Wrapper';
+
+import A from 'components/A';
 
 export class WaterListItem extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
         // <RepoLink href={item.html_url} target="_blank">
@@ -22,6 +25,52 @@ export class WaterListItem extends React.PureComponent { // eslint-disable-line 
         //   <IssueIcon />
         //   <FormattedNumber value={item.open_issues_count} />
         // </IssueLink>
+
+  componentDidMount() {
+
+    const item = this.props.item;
+    const firebase = item.firebase;
+    const storageRef = firebase.storage().ref()
+
+    const { videos } = item
+    let test = videos[0]
+    let id = item.id
+    let url = '531262325/water/' + id + '/videos/' + test
+    var starsRef = storageRef.child(url);
+
+    // Get the download URL
+    // starsRef.getDownloadURL().then(function(url) {
+    //   // Insert url into an <img> tag to "download"
+    //   console.log('url', url)
+
+    // }).catch(function(error) {
+
+    //   // A full list of error codes is available at
+    //   // https://firebase.google.com/docs/storage/web/handle-errors
+    //   switch (error.code) {
+    //     case 'storage/object_not_found':
+    //       // File doesn't exist
+    //       console.log("OH NO 1")
+    //       break;
+
+    //     case 'storage/unauthorized':
+    //     console.log("OH NO 2")
+    //       // User doesn't have permission to access the object
+    //       break;
+
+    //     case 'storage/canceled':
+    //     console.log("OH NO 3")
+    //       // User canceled the upload
+    //       break;
+
+    //     case 'storage/unknown':
+    //     console.log("OH NO 4")
+    //       // Unknown error occurred, inspect the server response
+    //       break;
+    //   }
+    // });
+
+  }
 
   render() {
     const item = this.props.item;
@@ -33,11 +82,13 @@ export class WaterListItem extends React.PureComponent { // eslint-disable-line 
       </Wrapper>
     );
 
+    let unitUrl = '/water/' + item.id
+
     // Render the content into a list item
     return (
-      // <ListItem key={`repo-list-item-${item.full_name}`} item={content} />
-      <ListItem key={`repo-list-item-${item.full_name}`} item={content} />
-
+      <Link to={unitUrl}>
+        <ListItem key={`repo-list-item-${item.full_name}`} item={content} />
+      </Link>
     );
   }
 }

@@ -17,13 +17,15 @@ import { Switch, Route } from 'react-router-dom';
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import WaterPage from 'containers/WaterPage/Loadable';
+import WaterUnitPage from 'containers/WaterUnitPage/Loadable';
 
 export default function App() {
   return (
     <div>
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route path="/water" component={WaterPage} />
+        <Route exact path="/water" component={WaterPage} />
+        <Route path="/water/:id" component={WaterUnitPage} />
         <Route component={NotFoundPage} />
       </Switch>
     </div>

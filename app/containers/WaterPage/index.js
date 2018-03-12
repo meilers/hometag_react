@@ -21,13 +21,15 @@ import saga from './saga';
 
 export class WaterPage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const { water } = this.props;
+    const { water, firebase } = this.props;
     const waterListProps = {
+      firebase,
       water,
       loading: !isLoaded(water),
       error: water == null
     };
 
+    console.log("isLoaded", isLoaded(water))
     console.log(this.props);
     return (
       <div>
